@@ -19,7 +19,7 @@ Proximo paso: bajar el umbral dsize de la regla 4 a un valor realista
 [P-09] Paso 1 - Instalación
 Suricata 8.0.6 instalado vía apt en Kali Linux.
 Servicio systemd deshabilitado por defecto (esperado, se controla manual).
-Carpeta de trabajo: ~/Practicas_SOC/Semana3_4/P09-Suricata-Deteccion
+Carpeta de trabajo: ~/SOC_Detection/P09-Suricata-Deteccion.
 
 [P-09] Paso 2 - Configuración (completo)
 af-packet interface: docker0
