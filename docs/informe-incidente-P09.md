@@ -4,7 +4,7 @@
 
 Se implementó una capa de detección activa (Suricata IDS) sobre un honeypot ICS
 (Conpot, protocolo Modbus/TCP) para identificar patrones de reconocimiento y
-manipulación no autorizada en un entorno OT simulado. Se documentan 4 eventos
+manipulación no autorizada en un entorno OT. Se documentan 4 eventos
 de seguridad detectados y validados, mapeados al NIST Cybersecurity Framework.
 
 ## Alcance y entorno
@@ -18,9 +18,9 @@ de seguridad detectados y validados, mapeados al NIST Cybersecurity Framework.
 ## Mapeo NIST CSF
 
 ### IDENTIFY (ID)
-Activo monitoreado: dispositivo ICS simulado (Siemens S7-200) expuesto en
+Activo monitoreado: dispositivo ICS(Siemens S7-200) expuesto en
 puerto Modbus no estandar 5020. Superficie de ataque: escritura de coils
-(control de salidas fisicas simuladas) y lectura de registros (exposicion
+(control de salidas fisicas) y lectura de registros (exposicion
 de datos operativos).
 
 ### DETECT (DE)
@@ -52,12 +52,11 @@ Detalle tecnico de deteccion:
 Ante la deteccion de evento 2 (escritura de coil) en un entorno productivo,
 la respuesta indicada seria: aislar el segmento de red del activo ICS,
 validar el estado fisico real del dispositivo controlado, y revisar logs
-de acceso para identificar el origen. En este ejercicio, la respuesta se
-limito a la validacion y documentacion del evento (entorno de laboratorio
-sin activo fisico real).
+de acceso para identificar el origen. En este trabajo, la respuesta se
+limito a la validacion y documentacion del evento.
 
 ### RECOVER (RC)
-No aplica en el contexto de este ejercicio de deteccion (no hubo impacto
+No aplica en el contexto de este trabajo de deteccion (no hubo impacto
 real sobre un proceso fisico). En un escenario productivo, la recuperacion
 implicaria restaurar el estado previo del registro/coil modificado y
 confirmar integridad operativa antes de reconectar el segmento aislado.
@@ -79,6 +78,6 @@ confirmar integridad operativa antes de reconectar el segmento aislado.
 ## Conclusion
 
 Las 4 reglas quedaron validadas contra trafico Modbus real, cerrando la
-brecha de deteccion activa identificada en P-08. El ejercicio evidencio
+brecha de deteccion activa identificada en P-08. El trabajo evidencio
 la importancia de calibrar firmas de deteccion contra el comportamiento
 real del protocolo y del activo especifico, en lugar de valores generico.
