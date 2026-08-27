@@ -1,0 +1,19 @@
+# P-09 - Reglas custom de deteccion Modbus sobre Conpot (honeypot ICS)
+# Puerto no estandar: 5020 (Conpot corre sin privilegios root)
+
+# Regla 1: Reconocimiento/escaneo de puerto
+# TCP puro, no modbus: un scanner no completa la sesion de aplicacion,
+# asi que el parser modbus de Suricata nunca llega a evaluar nada.
+alert tcp any any -> $HOME_NET 5020 (msg:"P09 - Posible escaneo de puerto Modbus no estandar (5020)"; flags:S; flow:to_server; threshold:type both, track by_src, count 3, seconds 60; classtype:attempted-recon; sid:9000001; rev:1;)
+
+# Regla 2: Write Single Coil (FC5) - modificacion de estado
+alert modbus any any -> $HOME_NET 5020 (msg:"P09 - Escritura Modbus (Write Single Coil, FC5) detectada"; flow:established,to_server; modbus: function 5; classtype:attempted-admin; sid:9000002; rev:1;)
+
+# Regla 3: Read Coils (FC1) - lectura basica
+alert modbus any any -> $HOME_NET 5020 (msg:"P09 - Lectura Modbus (Read Coils, FC1) detectada"; flow:established,to_server; modbus: function 1; classtype:attempted-recon; sid:9000003; rev:1;)
+
+# Regla 4: Bulk read en Holding Registers (FC3) - por tamano de RESPUESTA
+# No usa keyword modbus: no se puede mezclar con dsize (matches de paquete
+# crudo vs capa de aplicacion). Se matchea el byte de function code (0x03)
+# directo en el paquete, offset 7 = despues de la cabecera MBAP fija.
+alert tcp $HOME_NET 5020 -> any any (msg:"P09 - Posible lectura masiva de Holding Registers (FC3)"; flow:established,to_client; content:"|03|"; offset:7; depth:1; dsize:>15; classtype:attempted-recon; sid:9000004; rev:1;)
